@@ -69,7 +69,13 @@ defmodule Botan.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind botan", "esbuild botan"],
-      "assets.deploy": ["tailwind botan --minify", "esbuild botan --minify", "phx.digest"]
+      "assets.deploy": ["tailwind botan --minify", "esbuild botan --minify", "phx.digest"],
+      check: [
+        "compile --warnings-as-errors",
+        "format --check-formatted",
+        "deps.unlock --check-unused",
+        "credo"
+      ]
     ]
   end
 end
