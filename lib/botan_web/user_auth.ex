@@ -1,4 +1,5 @@
 defmodule BotanWeb.UserAuth do
+  @moduledoc false
   use BotanWeb, :verified_routes
 
   import Plug.Conn

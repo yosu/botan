@@ -1,4 +1,5 @@
 defmodule Botan.Account.UserToken do
+  @moduledoc false
   use Botan.Schema, prefix: "utk_"
   import Ecto.Query
   alias Botan.Account.UserToken

@@ -1,4 +1,5 @@
 defmodule Botan.Account.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias Botan.Mailer
