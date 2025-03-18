@@ -9,7 +9,7 @@ defmodule Botan.Account.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"Botan", "contact@example.com"})
+      |> from({"Botan", "contact@fine-code.com"})
       |> subject(subject)
       |> text_body(body)
 
