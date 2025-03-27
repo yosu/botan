@@ -1,7 +1,6 @@
 defmodule Botan.Editor do
   alias Botan.Repo
   alias Botan.Editor.Book
-  alias Botan.Editor.Book.Query
 
   def import_book(path) do
     path
@@ -42,8 +41,8 @@ defmodule Botan.Editor do
 
   def book_tree() do
     groups =
-      Repo.all(Query.order_by_name())
-      |> Enum.map(&Map.take(&1, [:id, :name, :inserted_at, :updated_at, :parent_book_id]))
+      Repo.all(Book.Query.order_by_name())
+      |> Enum.map(&Map.take(&1, [:id, :name, :parent_book_id]))
       |> Enum.group_by(& &1.parent_book_id)
 
     Enum.map(groups[nil], &associate_children(&1, groups))

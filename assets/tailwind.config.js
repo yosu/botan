@@ -7,7 +7,7 @@ const path = require("path")
 
 module.exports = {
   content: [
-    "./js/**/*.js",
+    "./js/**/*.{js,jsx}",
     "../lib/botan_web.ex",
     "../lib/botan_web/**/*.*ex"
   ],
