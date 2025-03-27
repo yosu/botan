@@ -1,4 +1,5 @@
 defmodule Botan.Editor.Note do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   import Botan.Validation

@@ -1,4 +1,5 @@
 defmodule Botan.Editor.Book do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 

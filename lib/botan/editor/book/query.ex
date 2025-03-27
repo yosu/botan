@@ -1,4 +1,7 @@
 defmodule Botan.Editor.Book.Query do
+  @moduledoc """
+  The query module of the book.
+  """
   alias Botan.Editor.Book
   import Ecto.Query
 

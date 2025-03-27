@@ -1,4 +1,7 @@
 defmodule Botan.Editor do
+  @moduledoc """
+  The editor context.
+  """
   alias Botan.Repo
   alias Botan.Editor.Book
   alias Botan.Editor.Note
