@@ -5,9 +5,8 @@ defmodule Botan.Editor.Book do
   @primary_key {:id, :string, []}
   schema "books" do
     field :name, :string
-    field :parent_book_id, :string
 
-    has_one(:parent_book, Botan.Editor.Book)
+    belongs_to(:parent_book, Botan.Editor.Book)
     has_many(:books, Botan.Editor.Book)
 
     timestamps(type: :utc_datetime_usec)
