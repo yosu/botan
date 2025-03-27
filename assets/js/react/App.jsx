@@ -1,7 +1,12 @@
 import React from "react";
 import { BookTree } from "./BookTree";
+import { useParams } from "react-router";
 
-const App = (props) => {
+const App = ({ props }) => {
+
+  const params = useParams();
+  console.log(params)
+
   return (
     <div id="wrapper" className="flex min-h-[calc(100vh-34px)]">
       <div id="books" className="bg-red-100 w-56 p-2"><BookTree books={props.books} /></div>

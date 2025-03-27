@@ -70,6 +70,7 @@ defmodule BotanWeb.Router do
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
       get "/app", AppController, :app
+      get "/app/:book_id", AppController, :app
     end
   end
 

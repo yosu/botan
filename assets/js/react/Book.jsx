@@ -1,5 +1,6 @@
 import React, {useState, useCallback} from "react";
 import { BookTree } from "./BookTree";
+import { NavLink } from "react-router";
 
 export const Book = ({ book }) => {
   return (
@@ -9,7 +10,7 @@ export const Book = ({ book }) => {
 
 const LeafBook = ({ book }) => {
   return (
-    <BookNameWrapper>
+    <BookNameWrapper bookId={book.id}>
       <span className="p-2" /> {book.name}
     </BookNameWrapper>
   );
@@ -23,7 +24,7 @@ const ParentBook = ({ book }) => {
 
   return (
     <>
-      <BookNameWrapper onClick={toggleOpen}>
+      <BookNameWrapper bookId={book.id} onClick={toggleOpen}>
         <span className="hover:text-zinc-400">{open ? "v" : ">"}</span> {book.name}
       </BookNameWrapper>
       {open &&
@@ -35,10 +36,22 @@ const ParentBook = ({ book }) => {
   );
 }
 
-const BookNameWrapper = ({ onClick, children }) => {
+const BookNameWrapper = ({ bookId, onClick, children }) => {
   return (
-    <div className="select-none text-nowrap cursor-pointer hover:bg-red-200" onClick={onClick}>
-      {children}
-    </div>
+    <NavLink to={`/app/${bookId}`}>
+      {
+        ({ isActive }) => (
+          isActive ?
+          (
+            <div className="select-none text-nowrap cursor-pointer bg-red-200  hover:bg-red-300" onClick={onClick}>
+              {children}
+            </div>
+          )
+            : (<div className="select-none text-nowrap cursor-pointer hover:bg-red-200" onClick={onClick}>
+              {children}
+            </div>)
+        )
+      }
+    </NavLink>
   );
 }
