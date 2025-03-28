@@ -17,4 +17,19 @@ defmodule Botan.EditorFixtures do
 
     note
   end
+
+  def valid_book_attributes(attrs \\ %{}) do
+    Enum.into(attrs, %{
+      name: "some name"
+    })
+  end
+
+  def book_fixture(attrs \\ %{}) do
+    {:ok, book} =
+      attrs
+      |> valid_book_attributes()
+      |> Editor.create_book()
+
+    book
+  end
 end

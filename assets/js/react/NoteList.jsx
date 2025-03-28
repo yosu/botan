@@ -1,5 +1,11 @@
-import { useParams } from "react-router";
+import { useEffect } from "react"
 
 export const NoteList = ({ bookId }) => {
-  console.log("bookId", bookId)
+
+  useEffect(() => {
+    // fetch("/api/notes").then(resp => {
+    //   console.log(resp)
+    // })
+    console.log("bookId", bookId)
+  }, [bookId])
 }

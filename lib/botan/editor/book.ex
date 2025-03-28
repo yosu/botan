@@ -16,7 +16,7 @@ defmodule Botan.Editor.Book do
   def changeset(book, attrs) do
     book
     |> cast(attrs, [:name, :parent_book_id])
-    |> validate_required([:id, :name])
+    |> validate_required([:name])
   end
 
   def import_changeset(attrs) do

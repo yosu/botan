@@ -18,6 +18,7 @@ defmodule BotanWeb.NoteJSON do
   defp data(%Note{} = note) do
     %{
       id: note.id,
+      book_id: note.book_id,
       title: note.title,
       body: note.body
     }

@@ -26,8 +26,35 @@ defmodule BotanWeb.NoteControllerTest do
     setup [:register_and_log_in_user]
 
     test "lists all notes", %{conn: conn} do
+      note = note_fixture()
+
       conn = get(conn, ~p"/api/notes")
-      assert json_response(conn, 200)["data"] == []
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "id" => note.id,
+                 "book_id" => note.book_id,
+                 "title" => note.title,
+                 "body" => note.body
+               }
+             ]
+    end
+
+    test "lists filter by book_id params", %{conn: conn} do
+      note_fixture()
+      book = book_fixture()
+      note = note_fixture(%{book_id: book.id})
+
+      conn = get(conn, ~p"/api/notes?book_id=#{book.id}")
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "id" => note.id,
+                 "book_id" => book.id,
+                 "title" => note.title,
+                 "body" => note.body
+               }
+             ]
     end
   end
 

@@ -101,6 +101,10 @@ defmodule Botan.Editor do
     Repo.all(Note)
   end
 
+  def list_notes_by_book(book_id) do
+    Repo.all(Note.Query.by_book(book_id))
+  end
+
   def get_note!(id) do
     Repo.get!(Note, id)
   end
@@ -131,5 +135,11 @@ defmodule Botan.Editor do
 
   def delete_note(%Note{} = note) do
     Repo.delete(note)
+  end
+
+  def create_book(attrs \\ %{}) do
+    %Book{}
+    |> Book.changeset(attrs)
+    |> Repo.insert()
   end
 end

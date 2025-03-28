@@ -6,6 +6,12 @@ defmodule BotanWeb.NoteController do
 
   action_fallback BotanWeb.FallbackController
 
+  def index(conn, %{"book_id" => book_id} = _params) when is_binary(book_id) do
+    notes = Editor.list_notes_by_book(book_id)
+
+    render(conn, :index, notes: notes)
+  end
+
   def index(conn, _params) do
     notes = Editor.list_notes()
     render(conn, :index, notes: notes)
