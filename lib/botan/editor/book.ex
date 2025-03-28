@@ -1,10 +1,8 @@
 defmodule Botan.Editor.Book do
   @moduledoc false
-  use Ecto.Schema
+  use Botan.Schema, prefix: "book:"
   import Ecto.Changeset
 
-  @primary_key {:id, :string, []}
-  @foreign_key_type :string
   schema "books" do
     field :name, :string
 
@@ -17,7 +15,7 @@ defmodule Botan.Editor.Book do
   @doc false
   def changeset(book, attrs) do
     book
-    |> cast(attrs, [:id, :name, :parent_book_id])
+    |> cast(attrs, [:name, :parent_book_id])
     |> validate_required([:id, :name])
   end
 

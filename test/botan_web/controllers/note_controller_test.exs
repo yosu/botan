@@ -6,7 +6,6 @@ defmodule BotanWeb.NoteControllerTest do
   alias Botan.Editor.Note
 
   @create_attrs %{
-    id: unique_note_id(),
     title: "some title",
     body: "some body"
   }
@@ -87,7 +86,7 @@ defmodule BotanWeb.NoteControllerTest do
   end
 
   defp create_note(_) do
-    note = note_fixture(%{id: unique_note_id()})
+    note = note_fixture()
     %{note: note}
   end
 end

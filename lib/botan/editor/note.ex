@@ -1,15 +1,14 @@
 defmodule Botan.Editor.Note do
   @moduledoc false
-  use Ecto.Schema
+  use Botan.Schema, prefix: "note:"
   import Ecto.Changeset
   import Botan.Validation
 
-  @primary_key {:id, :string, []}
   schema "notes" do
     field :title, :string
     field :body, :string
 
-    belongs_to :book, Botan.Editor.Book, type: :string
+    belongs_to :book, Botan.Editor.Book
 
     timestamps(type: :utc_datetime_usec)
   end
@@ -17,15 +16,15 @@ defmodule Botan.Editor.Note do
   @doc false
   def changeset(note, attrs) do
     note
-    |> cast(attrs, [:title, :body])
+    |> cast(attrs, [:title, :body, :book_id])
     |> validate_not_nil([:title, :body])
   end
 
   @doc false
   def create_changeset(note, attrs) do
     note
-    |> cast(attrs, [:id, :title, :body])
-    |> validate_not_nil([:id, :title, :body])
+    |> cast(attrs, [:title, :body, :book_id])
+    |> validate_not_nil([:title, :body])
   end
 
   def import_changeset(attrs) do

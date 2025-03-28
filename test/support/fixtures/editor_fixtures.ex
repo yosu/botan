@@ -1,7 +1,6 @@
 defmodule Botan.EditorFixtures do
+  @moduledoc false
   alias Botan.Editor
-
-  def unique_note_id, do: "note:abcdefgh#{System.unique_integer()}"
 
   def valid_note_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
@@ -11,9 +10,10 @@ defmodule Botan.EditorFixtures do
   end
 
   def note_fixture(attrs \\ %{}) do
-    {:ok, note} = attrs
-    |> valid_note_attributes()
-    |> Editor.create_note()
+    {:ok, note} =
+      attrs
+      |> valid_note_attributes()
+      |> Editor.create_note()
 
     note
   end
