@@ -96,4 +96,40 @@ defmodule Botan.Editor do
       end
     end)
   end
+
+  def list_notes() do
+    Repo.all(Note)
+  end
+
+  def get_note!(id) do
+    Repo.get!(Note, id)
+  end
+
+  @doc """
+  Creates a note.
+
+  ## Examples
+
+      iex> create_note(%{field: value})
+      {:ok, %Journal{}}
+
+      iex> create_note(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_note(attrs \\ %{}) do
+    %Note{}
+    |> Note.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_note(%Note{} = note, attrs \\ %{}) do
+    note
+    |> Note.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_note(%Note{} = note) do
+    Repo.delete(note)
+  end
 end
