@@ -4,6 +4,7 @@ defmodule Botan.Editor.Book do
   import Ecto.Changeset
 
   @primary_key {:id, :string, []}
+  @foreign_key_type :string
   schema "books" do
     field :name, :string
 
