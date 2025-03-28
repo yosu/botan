@@ -24,6 +24,8 @@ defmodule BotanWeb.NoteControllerTest do
   end
 
   describe "index" do
+    setup [:register_and_log_in_user]
+
     test "lists all notes", %{conn: conn} do
       conn = get(conn, ~p"/api/notes")
       assert json_response(conn, 200)["data"] == []
@@ -31,6 +33,8 @@ defmodule BotanWeb.NoteControllerTest do
   end
 
   describe "create note" do
+    setup [:register_and_log_in_user]
+
     test "renders note when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/notes", note: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -49,7 +53,7 @@ defmodule BotanWeb.NoteControllerTest do
   end
 
   describe "update note" do
-    setup [:create_note]
+    setup [:register_and_log_in_user, :create_note]
 
     test "renders note when data is valid", %{conn: conn, note: %Note{id: id} = note} do
       conn = put(conn, ~p"/api/notes/#{note}", note: @update_attrs)
@@ -70,7 +74,7 @@ defmodule BotanWeb.NoteControllerTest do
   end
 
   describe "delete note" do
-    setup [:create_note]
+    setup [:register_and_log_in_user, :create_note]
 
     test "deletes chosen note", %{conn: conn, note: note} do
       conn = delete(conn, ~p"/api/notes/#{note}")

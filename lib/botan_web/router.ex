@@ -15,6 +15,8 @@ defmodule BotanWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_current_user
   end
 
   scope "/", BotanWeb do
@@ -25,7 +27,7 @@ defmodule BotanWeb.Router do
 
   # Other scopes may use custom stacks.
   scope "/api", BotanWeb do
-    pipe_through :api
+    pipe_through [:api, :require_authenticated_user_json]
 
     resources "/notes", NoteController
   end

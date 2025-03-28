@@ -214,6 +214,18 @@ defmodule BotanWeb.UserAuth do
     end
   end
 
+  def require_authenticated_user_json(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_status(:unauthorized)
+      |> put_view(BotanWeb.ErrorJSON)
+      |> render(:"401")
+      |> halt()
+    end
+  end
+
   defp put_token_in_session(conn, token) do
     conn
     |> put_session(:user_token, token)
