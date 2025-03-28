@@ -50,10 +50,13 @@ defmodule Botan.Editor do
       |> Enum.group_by(& &1.parent_book_id)
 
     Enum.map(groups[nil], &associate_children(&1, groups))
+    |> Enum.sort_by(& &1.name)
   end
 
   defp associate_children(node, groups) do
-    children = Enum.map(groups[node.id] || [], &associate_children(&1, groups))
+    children =
+      Enum.map(groups[node.id] || [], &associate_children(&1, groups))
+      |> Enum.sort_by(& &1.name)
 
     Map.put(node, :children, children)
   end
