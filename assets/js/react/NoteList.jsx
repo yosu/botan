@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router";
 
 export const NoteList = ({ bookId }) => {
   const [notes, setNotes] = useState([]);
@@ -17,16 +18,18 @@ export const NoteList = ({ bookId }) => {
 
   return (
     <div>
-      {notes.map((note) => <Note key={note.id} note={note} />)}
+      {notes.map((note) => <NoteTitle key={note.id} note={note} />)}
     </div>
   );
 }
 
 
-const Note = ({ note }) => {
+const NoteTitle = ({ note }) => {
   return (
-    <div className="border bottom-1 border-zinc-300">
-      <h3 className="select-none cursor-pointer hover:bg-orange-200">{note.title}</h3>
-    </div>
+    <Link to={`/app/${note.bookId}/${note.id}`}>
+      <div className="border bottom-1 border-zinc-300">
+        <h3 className="select-none cursor-pointer hover:bg-orange-200">{note.title}</h3>
+      </div>
+    </Link>
   );
 }

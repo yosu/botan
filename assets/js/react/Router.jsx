@@ -9,6 +9,7 @@ const Router = (props) => {
         <Route path="app">
           <Route index element={<App props={props} />} />
           <Route path=":bookId" element={<App props={props} />} />
+          <Route path=":bookId/:noteId" element={<App props={props} />} />
         </Route>
       </Routes>
     </BrowserRouter>
