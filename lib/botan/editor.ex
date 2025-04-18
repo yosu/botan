@@ -145,4 +145,40 @@ defmodule Botan.Editor do
     |> Book.changeset(attrs)
     |> Repo.insert()
   end
+
+  def import_file(path) do
+    Path.expand(path)
+    |> File.read!()
+    |> Jason.decode!()
+    |> then(fn %{
+      "_id" => id,
+      "name" => name,
+      "_attachments" => %{
+        "index" => %{
+          "digest" => digest,
+          "data" => data64
+        }
+      },
+      "contentType" => content_type,
+      "createdAt" => created_at
+
+    } ->
+      data = Base.decode64!(data64)
+      %{
+        id: id,
+        name: name,
+        digest: digest,
+        inserted_at: DateTime.from_unix!(created_at, :millisecond),
+        data: data,
+        content_length: byte_size(data),
+        content_type: content_type
+      }
+     end)
+     |> Botan.Editor.File.import_changeset()
+     |> Repo.insert!()
+  end
+
+  def get_file(id) do
+    Repo.get(Botan.Editor.File, id)
+  end
 end
