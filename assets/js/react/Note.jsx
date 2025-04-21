@@ -1,8 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { MilkdownEditorWrapper } from "./MilkdownEditorWrapper";
+import { debounce } from "../util/debounce";
+
+const updateTitle = debounce((id, title) => {
+    const fd = new FormData();
+    fd.append("note[title]", title)
+
+    fetch(`/api/notes/${id}`, {
+      "method": "PATCH",
+      "body": fd
+    })
+
+}, 1000)
 
 export const Note = ({ noteId }) => {
   const [note, setNote] = useState(null)
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -16,10 +29,21 @@ export const Note = ({ noteId }) => {
     })()
   }, [noteId])
 
+  useEffect(() => {
+    if (note) {
+      setTitle(note.title);
+    }
+  },[note])
+
+  onChangeTitle = useCallback((e) => {
+    setTitle(e.target.value);
+    updateTitle(note.id, e.target.value);
+  }, [note])
+
   return (
     note &&
     <div>
-      <h2>{note.title}</h2>
+      <input type="text" value={title} onChange={onChangeTitle} className="w-full bg-transparent border-none focus:ring-0"/>
       <MilkdownEditorWrapper value={note.body} />
     </div>
   )
