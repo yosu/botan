@@ -159,17 +159,19 @@ defmodule Botan.Editor do
           "data" => data64
         }
       },
-      "contentType" => content_type,
       "createdAt" => created_at
 
     } ->
       data = Base.decode64!(data64)
+
+      {compact_data, compact_name, content_type} = Botan.Image.compact!(name, data)
+
       %{
         id: id,
-        name: name,
+        name: compact_name,
         digest: digest,
         inserted_at: DateTime.from_unix!(created_at, :millisecond),
-        data: data,
+        data: compact_data,
         content_length: byte_size(data),
         content_type: content_type
       }
@@ -178,7 +180,28 @@ defmodule Botan.Editor do
      |> Repo.insert!()
   end
 
+  def import_all_files(path) do
+    path
+    |> Path.expand()
+    |> then(fn p -> [p, "*.json"] end)
+    |> Path.join()
+    |> Path.wildcard()
+    |> then(fn files ->
+      for file <- files do
+        import_file(file)
+      end
+    end)
+  end
+
   def get_file(id) do
     Repo.get(Botan.Editor.File, id)
+  end
+
+  def replace_urls() do
+    for note <- Repo.all(Botan.Editor.Note) do
+      body = Regex.replace(~r"inkdrop://", note.body, "/file/")
+      Botan.Editor.Note.changeset(note, %{body: body})
+      |> Repo.update()
+    end
   end
 end
