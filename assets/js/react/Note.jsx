@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { MilkdownEditorWrapper } from "./MilkdownEditorWrapper";
 
 export const Note = ({ noteId }) => {
   const [note, setNote] = useState(null)
@@ -19,7 +20,7 @@ export const Note = ({ noteId }) => {
     note &&
     <div>
       <h2>{note.title}</h2>
-      <pre>{note.body}</pre>
+      <MilkdownEditorWrapper value={note.body} />
     </div>
   )
 }
