@@ -44,7 +44,7 @@ export const Note = ({ noteId }) => {
     note &&
     <div>
       <input type="text" value={title} onChange={onChangeTitle} className="w-full bg-transparent border-none focus:ring-0"/>
-      <MilkdownEditorWrapper value={note.body} />
+      <MilkdownEditorWrapper note={note} />
     </div>
   )
 }

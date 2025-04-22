@@ -8,6 +8,7 @@ import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { upload, uploadConfig } from "@milkdown/kit/plugin/upload";
 import React, { useRef, useEffect } from "react";
+import { updateBody } from "../api/note";
 
 const uploader = async (files, schema) => {
   const images = [];
@@ -58,16 +59,19 @@ const uploader = async (files, schema) => {
 };
 
 
-const MilkdownEditor = ({ value }) => {
+const MilkdownEditor = ({ note }) => {
   const editorRef = useRef(null)
 
   useEditor((root) => {
     editorRef.value = Editor.make()
       .config((ctx) => {
         ctx.set(rootCtx, root);
-        ctx.set(defaultValueCtx, value)
+        ctx.set(defaultValueCtx, note.body)
         ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
-          console.log(markdown)
+          // Avoid the error below:
+          //   MilkdownError: Create prosemirror node from remark failed in parser
+          replaced = markdown.replace(/\* <br \/>/g, "")
+          updateBody(note.id, replaced)
         })
         ctx.update(uploadConfig.key, (prev) => ({
           ...prev,
@@ -83,7 +87,7 @@ const MilkdownEditor = ({ value }) => {
       .use(upload)
 
     editorRef.value.create();
-  }, [value])
+  }, [note])
 
   useEffect(() => {
     return () => {
@@ -92,15 +96,15 @@ const MilkdownEditor = ({ value }) => {
         editorRef.value = null;
       }
     }
-  }, [value])
+  }, [note])
 
   return <Milkdown />
 }
 
-export const MilkdownEditorWrapper = ({ value }) => {
+export const MilkdownEditorWrapper = ({ note }) => {
   return (
     <MilkdownProvider>
-      <MilkdownEditor value={value} />
+      <MilkdownEditor note={note} />
     </MilkdownProvider>
   );
 }
