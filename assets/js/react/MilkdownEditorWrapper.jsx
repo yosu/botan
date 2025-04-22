@@ -9,6 +9,7 @@ import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { upload, uploadConfig } from "@milkdown/kit/plugin/upload";
 import React, { useRef, useEffect } from "react";
 import { updateBody } from "../api/note";
+import { getCSRFToken } from "../util/csrf";
 
 const uploader = async (files, schema) => {
   const images = [];
@@ -31,7 +32,6 @@ const uploader = async (files, schema) => {
     images.map(async (image) => {
       const fd = new FormData();
 
-      console.log(image)
       fd.append("uploadfile", image);
 
       const res = await fetch('/file', {
@@ -41,10 +41,8 @@ const uploader = async (files, schema) => {
         },
         body: fd
       });
-      console.log(res);
 
       const json = await res.json();
-      console.log(json);
 
       const src = json.data.url
       const alt = image.name;

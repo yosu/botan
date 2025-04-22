@@ -13,4 +13,14 @@ defmodule BotanWeb.FileController do
         |> send_resp(200, file.data)
     end
   end
+
+  def create(conn, %{"uploadfile" => upload}) do
+    IO.inspect(upload)
+
+    file = Editor.save_file(upload.filename, upload.path)
+
+    conn
+    |> put_resp_header("content-type", "application/json")
+    |> send_resp(201, JSON.encode!(%{data: %{ url: ~p"/file/#{file.id}"}}))
+  end
 end

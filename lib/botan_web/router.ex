@@ -78,6 +78,7 @@ defmodule BotanWeb.Router do
       get "/app/:book_id/:note_id", AppController, :app
 
       get "/file/:id", FileController, :show
+      post "/file", FileController, :create
     end
   end
 

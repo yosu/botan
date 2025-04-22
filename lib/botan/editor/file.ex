@@ -1,5 +1,5 @@
 defmodule Botan.Editor.File do
-  use Botan.Schema, prefix: "file"
+  use Botan.Schema, prefix: "file:"
   import Ecto.Changeset
 
   schema "file" do
@@ -17,6 +17,12 @@ defmodule Botan.Editor.File do
     file
     |> cast(attrs, [:id, :name, :digest, :content_type, :content_length, :data])
     |> validate_required([:id, :name, :digest, :content_type, :content_length, :data])
+  end
+
+  def new_changeset(attrs) do
+    %__MODULE__{}
+    |> cast(attrs, [:name, :digest, :content_type, :content_length, :data])
+    |> validate_required([:name, :digest, :content_type, :content_length, :data])
   end
 
   def import_changeset(attrs) do

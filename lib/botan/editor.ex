@@ -146,6 +146,12 @@ defmodule Botan.Editor do
     |> Repo.insert()
   end
 
+  defp digest(data) do
+    :crypto.hash(:md5, data)
+    |> Base.encode64()
+    |> then(&("md5-" <> &1))
+  end
+
   def import_file(path) do
     Path.expand(path)
     |> File.read!()
@@ -155,7 +161,6 @@ defmodule Botan.Editor do
       "name" => name,
       "_attachments" => %{
         "index" => %{
-          "digest" => digest,
           "data" => data64
         }
       },
@@ -169,7 +174,7 @@ defmodule Botan.Editor do
       %{
         id: id,
         name: compact_name,
-        digest: digest,
+        digest: digest(compact_data),
         inserted_at: DateTime.from_unix!(created_at, :millisecond),
         data: compact_data,
         content_length: byte_size(data),
@@ -195,6 +200,21 @@ defmodule Botan.Editor do
 
   def get_file(id) do
     Repo.get(Botan.Editor.File, id)
+  end
+
+  def save_file(name, path) do
+    {:ok, data} = File.read(path)
+
+    {compact_data, compact_name, content_type} = Botan.Image.compact!(name, data)
+
+    Botan.Editor.File.new_changeset(%{
+      name: compact_name,
+      data: compact_data,
+      content_type: content_type,
+      content_length: byte_size(compact_data),
+      digest: digest(compact_data)
+    })
+    |> Repo.insert!()
   end
 
   def replace_urls() do
