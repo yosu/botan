@@ -1,3 +1,12 @@
 .milkdown .editor {
   @apply outline-none;
 }
+
+.milkdown .list-item {
+  @apply flex;
+}
+
+// the margin between the list item and the label
+.milkdown .label-wrapper {
+  @apply mr-2;
+}
