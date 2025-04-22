@@ -1,17 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import { MilkdownEditorWrapper } from "./MilkdownEditorWrapper";
-import { debounce } from "../util/debounce";
-
-const updateTitle = debounce((id, title) => {
-    const fd = new FormData();
-    fd.append("note[title]", title)
-
-    fetch(`/api/notes/${id}`, {
-      "method": "PATCH",
-      "body": fd
-    })
-
-}, 1000)
+import { updateTitle } from "../api/note";
 
 export const Note = ({ noteId }) => {
   const [note, setNote] = useState(null)
