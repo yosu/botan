@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { Link } from "react-router";
+import { allNoteSet, selectAllNote } from "./noteSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const NoteList = ({ bookId }) => {
-  const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
+  const notes = useSelector(selectAllNote)
 
   useEffect(() => {
     (async () => {
@@ -12,7 +15,7 @@ export const NoteList = ({ bookId }) => {
       }
 
       const json = await resp.json()
-      setNotes(json.data)
+      dispatch(allNoteSet(json.data))
     })()
   }, [bookId])
 

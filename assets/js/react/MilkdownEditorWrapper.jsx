@@ -7,7 +7,7 @@ import { listItemBlockComponent } from "@milkdown/kit/component/list-item-block"
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { upload, uploadConfig } from "@milkdown/kit/plugin/upload";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { updateBody } from "../api/note";
 import { getCSRFToken } from "../util/csrf";
 
@@ -99,10 +99,23 @@ const MilkdownEditor = ({ note }) => {
   return <Milkdown />
 }
 
-export const MilkdownEditorWrapper = ({ note }) => {
+export const MilkdownEditorWrapper = ({ noteId }) => {
+  const [note, setNote] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+      const resp = await fetch(`/api/notes/${noteId}`)
+      if (!resp.ok) {
+        throw new Error(`レスポンスステータス: ${resp.status}`)
+      }
+      const json = await resp.json()
+      setNote(json.data)
+    })()
+  }, [noteId])
+
   return (
     <MilkdownProvider>
-      <MilkdownEditor note={note} />
+      {note && <MilkdownEditor note={note} />}
     </MilkdownProvider>
   );
 }
