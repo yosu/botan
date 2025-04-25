@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "@milkdown/kit": "^7.9.0",
+    "@milkdown/react": "^7.9.0",
+    "@reduxjs/toolkit": "^2.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
     "react-router": "^7.4.0",
     "remount": "^1.0.0"
   }
