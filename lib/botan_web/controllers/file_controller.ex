@@ -8,9 +8,15 @@ defmodule BotanWeb.FileController do
       nil ->
         send_resp(conn, 404, "")
       file ->
-        conn
-        |> put_resp_header("content-type", file.content_type)
-        |> send_resp(200, file.data)
+        if file.digest in get_req_header(conn, "if-none-match") do
+          send_resp(conn, 304, "")
+        else
+          conn
+          |> put_resp_content_type(file.content_type)
+          |> put_resp_header("cache-control", "private")
+          |> put_resp_header("etag", file.digest)
+          |> send_resp(200, file.data)
+        end
     end
   end
 
