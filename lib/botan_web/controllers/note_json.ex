@@ -20,7 +20,8 @@ defmodule BotanWeb.NoteJSON do
       id: note.id,
       bookId: note.book_id,
       title: note.title,
-      body: note.body
+      body: note.body,
+      updated_at: note.updated_at
     }
   end
 end
