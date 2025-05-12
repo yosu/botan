@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from "react";
 import { BookTree } from "./BookTree";
 import { NavLink } from "react-router";
+import classNames from "classnames";
 
 export const Book = ({ book }) => {
   return (
@@ -41,15 +42,11 @@ const BookNameWrapper = ({ bookId, onClick, children }) => {
     <NavLink to={`/app/${bookId}`}>
       {
         ({ isActive }) => (
-          isActive ?
-          (
-            <div className="select-none text-nowrap cursor-pointer bg-red-200  hover:bg-red-300" onClick={onClick}>
-              {children}
-            </div>
-          )
-            : (<div className="select-none text-nowrap cursor-pointer hover:bg-red-200" onClick={onClick}>
-              {children}
-            </div>)
+          <div
+            className={classNames("select-none text-nowrap cursor-pointer", isActive ? "bg-red-200 hover:bg-red-300" : "hover:bg-red-200")}
+            onClick={onClick}>
+            {children}
+          </div>
         )
       }
     </NavLink>
