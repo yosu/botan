@@ -33,13 +33,13 @@ const NoteTitle = ({ note }) => {
     <Link to={`/app/${note.bookId}/${note.id}`}>
       <div className="border bottom-1 border-zinc-300">
         <h3 className="select-none cursor-pointer hover:bg-orange-200">{note.title}</h3>
-        <TimeAgo timestamp={note.updated_at}/>
+        <UpdatedAt timestamp={note.updated_at}/>
       </div>
     </Link>
   );
 }
 
-const TimeAgo = ({ timestamp }) => {
+const UpdatedAt = ({ timestamp }) => {
   const date = parseISO(timestamp)
   const dateStr = date.toLocaleDateString("ja-JP", {
     year: "numeric",
