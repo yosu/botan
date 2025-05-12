@@ -1,6 +1,7 @@
 defmodule Botan.Image do
   def compact!(name, data) do
-    new_data = Image.from_binary!(data)
+    new_data =
+      Image.from_binary!(data)
       |> Image.thumbnail!(1200)
       |> Image.write!(:memory, suffix: ".webp")
 

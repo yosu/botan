@@ -7,6 +7,7 @@ defmodule BotanWeb.FileController do
     case Editor.get_file(id) do
       nil ->
         send_resp(conn, 404, "")
+
       file ->
         if file.digest in get_req_header(conn, "if-none-match") do
           send_resp(conn, 304, "")
@@ -27,6 +28,6 @@ defmodule BotanWeb.FileController do
 
     conn
     |> put_resp_header("content-type", "application/json")
-    |> send_resp(201, JSON.encode!(%{data: %{ url: ~p"/file/#{file.id}"}}))
+    |> send_resp(201, JSON.encode!(%{data: %{url: ~p"/file/#{file.id}"}}))
   end
 end

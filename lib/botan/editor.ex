@@ -151,16 +151,15 @@ defmodule Botan.Editor do
     |> File.read!()
     |> Jason.decode!()
     |> then(fn %{
-      "_id" => id,
-      "name" => name,
-      "_attachments" => %{
-        "index" => %{
-          "data" => data64
-        }
-      },
-      "createdAt" => created_at
-
-    } ->
+                 "_id" => id,
+                 "name" => name,
+                 "_attachments" => %{
+                   "index" => %{
+                     "data" => data64
+                   }
+                 },
+                 "createdAt" => created_at
+               } ->
       data = Base.decode64!(data64)
 
       {compact_data, compact_name, content_type} = Botan.Image.compact!(name, data)
@@ -174,9 +173,9 @@ defmodule Botan.Editor do
         content_length: byte_size(data),
         content_type: content_type
       }
-     end)
-     |> Botan.Editor.File.import_changeset()
-     |> Repo.insert!()
+    end)
+    |> Botan.Editor.File.import_changeset()
+    |> Repo.insert!()
   end
 
   def import_all_files(path) do
@@ -214,6 +213,7 @@ defmodule Botan.Editor do
   def replace_urls() do
     for note <- Repo.all(Botan.Editor.Note) do
       body = Regex.replace(~r"inkdrop://", note.body, "/file/")
+
       Botan.Editor.Note.changeset(note, %{body: body})
       |> Repo.update()
     end

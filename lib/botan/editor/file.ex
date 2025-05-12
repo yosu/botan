@@ -28,6 +28,14 @@ defmodule Botan.Editor.File do
   def import_changeset(attrs) do
     %__MODULE__{}
     |> cast(attrs, [:id, :name, :digest, :content_type, :content_length, :data, :inserted_at])
-    |> validate_required([:id, :name, :digest, :content_type, :content_length, :data, :inserted_at])
+    |> validate_required([
+      :id,
+      :name,
+      :digest,
+      :content_type,
+      :content_length,
+      :data,
+      :inserted_at
+    ])
   end
 end
