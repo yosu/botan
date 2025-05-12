@@ -35,16 +35,28 @@ export const NoteList = ({ bookId }) => {
 
   return (
     <div>
-      {notes.map((note) => <NoteTitle key={note.id} note={note} isActive={isActiveNote(note)} />)}
+      <BookTitleBar />
+      <div>
+        {notes.map((note) => <NoteTitle key={note.id} note={note} isActive={isActiveNote(note)} />)}
+      </div>
     </div>
   );
+}
+
+const BookTitleBar = () => {
+  return (
+    <div className="py-1 border-b border-white flex">
+      <span className="flex-1 text-center truncate">Book Title</span>
+      <span className="flex-none px-2 cursor-pointer">✏️</span>
+    </div>
+  )
 }
 
 const NoteTitle = ({ note, isActive }) => {
   return (
     <Link to={`/app/${note.bookId}/${note.id}`}>
       <div className={classNames(
-        "border bottom-1 border-zinc-300 select-none cursor-pointer",
+        "border-b border-zinc-300 select-none cursor-pointer",
         isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
       )}>
         <h3>{note.title}</h3>
