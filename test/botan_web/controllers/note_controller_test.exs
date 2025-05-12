@@ -36,7 +36,7 @@ defmodule BotanWeb.NoteControllerTest do
                  "bookId" => note.book_id,
                  "title" => note.title,
                  "body" => note.body,
-                 "updated_at" => JSON.encode!(note.updated_at) |> JSON.decode!()
+                 "updatedAt" => JSON.encode!(note.updated_at) |> JSON.decode!()
                }
              ]
     end
@@ -54,7 +54,7 @@ defmodule BotanWeb.NoteControllerTest do
                  "bookId" => book.id,
                  "title" => note.title,
                  "body" => note.body,
-                 "updated_at" => JSON.encode!(note.updated_at) |> JSON.decode!()
+                 "updatedAt" => JSON.encode!(note.updated_at) |> JSON.decode!()
                }
              ]
     end

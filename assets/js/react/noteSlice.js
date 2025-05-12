@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 // TODO: Add sort comparer
 const noteAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.updated_at.localeCompare(a.updated_at)
+  sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt)
 })
 
 const initialState = noteAdapter.getInitialState()

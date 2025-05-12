@@ -60,7 +60,7 @@ const NoteTitle = ({ note, isActive }) => {
         isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
       )}>
         <h3>{note.title}</h3>
-        <UpdatedAt timestamp={note.updated_at}/>
+        <UpdatedAt timestamp={note.updatedAt}/>
       </div>
     </Link>
   );
