@@ -32,8 +32,6 @@ defmodule BotanWeb.NoteController do
   end
 
   def update(conn, %{"id" => id, "note" => note_params}) do
-    IO.inspect(id, label: "id")
-    IO.inspect(note_params, label: "note_params")
     note = Editor.get_note!(id)
 
     with {:ok, %Note{} = note} <- Editor.update_note(note, note_params) do

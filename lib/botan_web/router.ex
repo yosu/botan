@@ -30,6 +30,7 @@ defmodule BotanWeb.Router do
     pipe_through [:api, :require_authenticated_user_json]
 
     resources "/notes", NoteController
+    resources "/books", BookController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

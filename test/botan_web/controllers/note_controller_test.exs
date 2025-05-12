@@ -33,9 +33,10 @@ defmodule BotanWeb.NoteControllerTest do
       assert json_response(conn, 200)["data"] == [
                %{
                  "id" => note.id,
-                 "book_id" => note.book_id,
+                 "bookId" => note.book_id,
                  "title" => note.title,
-                 "body" => note.body
+                 "body" => note.body,
+                 "updated_at" => JSON.encode!(note.updated_at) |> JSON.decode!()
                }
              ]
     end
@@ -50,9 +51,10 @@ defmodule BotanWeb.NoteControllerTest do
       assert json_response(conn, 200)["data"] == [
                %{
                  "id" => note.id,
-                 "book_id" => book.id,
+                 "bookId" => book.id,
                  "title" => note.title,
-                 "body" => note.body
+                 "body" => note.body,
+                 "updated_at" => JSON.encode!(note.updated_at) |> JSON.decode!()
                }
              ]
     end
