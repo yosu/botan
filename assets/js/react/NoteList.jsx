@@ -4,6 +4,7 @@ import { allNoteSet, selectAllNote } from "./noteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO } from "date-fns"
 import classNames from "classnames";
+import { selectBookById } from "./bookSlice";
 
 const useIsActiveNote = () => {
   const { noteId: selectedNoteId } = useParams();
@@ -35,7 +36,7 @@ export const NoteList = ({ bookId }) => {
 
   return (
     <div>
-      <BookTitleBar />
+      <BookTitleBar bookId={bookId} />
       <div>
         {notes.map((note) => <NoteTitle key={note.id} note={note} isActive={isActiveNote(note)} />)}
       </div>
@@ -43,10 +44,14 @@ export const NoteList = ({ bookId }) => {
   );
 }
 
-const BookTitleBar = () => {
+const BookTitleBar = ({ bookId }) => {
+  const book = useSelector(state => selectBookById(state, bookId))
+
+  if (!book) return null;
+
   return (
     <div className="py-1 border-b border-white flex">
-      <span className="flex-1 text-center truncate">Book Title</span>
+      <span className="flex-1 text-center truncate">{book.name}</span>
       <span className="flex-none px-2 cursor-pointer">✏️</span>
     </div>
   )
