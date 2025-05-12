@@ -1,12 +1,25 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router";
+import React, { useCallback, useEffect } from "react"
+import { Link, useParams } from "react-router";
 import { allNoteSet, selectAllNote } from "./noteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO } from "date-fns"
+import classNames from "classnames";
+
+const useIsActiveNote = () => {
+  const { noteId: selectedNoteId } = useParams();
+
+  const isActiveNote = useCallback((note) => {
+
+    return note.id === selectedNoteId;
+  }, [selectedNoteId])
+
+  return isActiveNote;
+}
 
 export const NoteList = ({ bookId }) => {
   const dispatch = useDispatch();
   const notes = useSelector(selectAllNote)
+  const isActiveNote = useIsActiveNote()
 
   useEffect(() => {
     (async () => {
@@ -22,17 +35,19 @@ export const NoteList = ({ bookId }) => {
 
   return (
     <div>
-      {notes.map((note) => <NoteTitle key={note.id} note={note} />)}
+      {notes.map((note) => <NoteTitle key={note.id} note={note} isActive={isActiveNote(note)} />)}
     </div>
   );
 }
 
-
-const NoteTitle = ({ note }) => {
+const NoteTitle = ({ note, isActive }) => {
   return (
     <Link to={`/app/${note.bookId}/${note.id}`}>
-      <div className="border bottom-1 border-zinc-300">
-        <h3 className="select-none cursor-pointer hover:bg-orange-200">{note.title}</h3>
+      <div className={classNames(
+        "border bottom-1 border-zinc-300 select-none cursor-pointer",
+        isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
+      )}>
+        <h3>{note.title}</h3>
         <UpdatedAt timestamp={note.updated_at}/>
       </div>
     </Link>
