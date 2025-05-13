@@ -1,4 +1,4 @@
-import { Editor, rootCtx, defaultValueCtx } from "@milkdown/kit/core";
+import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from "@milkdown/kit/core";
 import { commonmark } from "@milkdown/kit/preset/commonmark";
 import { gfm } from "@milkdown/kit/preset/gfm";
 import { history } from "@milkdown/kit/plugin/history";
@@ -57,6 +57,17 @@ const uploader = async (files, schema) => {
   return nodes;
 };
 
+// Open URL by new tab
+// https://zenn.dev/rabee/articles/milkdown-click-event
+const handleElementClick = (view, event) => {
+  if (event.target.tagName.toLowerCase() === "a") {
+    event.preventDefault()
+
+    const href = event.target.getAttribute("href")
+    window.open(href, "_blank")
+  }
+}
+
 
 const MilkdownEditor = ({ note }) => {
   const editorRef = useRef(null)
@@ -76,6 +87,11 @@ const MilkdownEditor = ({ note }) => {
           ...prev,
           uploader,
         }));
+        ctx.set(editorViewOptionsCtx, {
+          handleDOMEvents: {
+            click: handleElementClick
+          }
+        })
       })
       .use(commonmark)
       .use(gfm)
