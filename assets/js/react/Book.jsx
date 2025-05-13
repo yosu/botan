@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 export const Book = ({ book }) => {
   return (
-    book.children.length > 0 ? <ParentBook book={book} /> : <LeafBook book={book} />
+    book.children?.length > 0 ? <ParentBook book={book} /> : <LeafBook book={book} />
   );
 }
 

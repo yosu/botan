@@ -5,6 +5,7 @@
     "@reduxjs/toolkit": "^2.7.0",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
+    "just-group-by": "^2.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
