@@ -4,6 +4,7 @@ import { gfm } from "@milkdown/kit/preset/gfm";
 import { history } from "@milkdown/kit/plugin/history";
 import { indent } from "@milkdown/kit/plugin/indent";
 import { listItemBlockComponent } from "@milkdown/kit/component/list-item-block";
+import { clipboard } from '@milkdown/kit/plugin/clipboard'
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { upload, uploadConfig } from "@milkdown/kit/plugin/upload";
@@ -83,6 +84,7 @@ const MilkdownEditor = ({ note }) => {
       .use(listItemBlockComponent)
       .use(listener)
       .use(upload)
+      .use(clipboard) // paste url as a link
 
     editorRef.value.create();
   }, [note])
