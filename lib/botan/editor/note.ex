@@ -16,15 +16,15 @@ defmodule Botan.Editor.Note do
   @doc false
   def changeset(note, attrs) do
     note
-    |> cast(attrs, [:title, :body, :book_id])
+    |> cast(attrs, [:title, :body, :book_id], empty_values: [nil])
     |> validate_not_nil([:title, :body])
   end
 
   @doc false
   def create_changeset(note, attrs) do
     note
-    |> cast(attrs, [:title, :body, :book_id])
-    |> validate_not_nil([:title, :body])
+    |> cast(attrs, [:title, :body, :book_id], empty_values: [nil])
+    |> validate_not_nil([:title, :body, :book_id])
   end
 
   def import_changeset(attrs) do

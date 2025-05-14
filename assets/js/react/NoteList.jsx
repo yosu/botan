@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect } from "react"
-import { Link, useParams } from "react-router";
-import { allNoteSet, selectAllNote } from "./noteSlice";
+import { Link, useNavigate, useParams } from "react-router";
+import { allNoteSet, createNewNote, selectAllNote } from "./noteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO } from "date-fns"
 import classNames from "classnames";
 import { selectBookById } from "./bookSlice";
+import { createNote } from "../api/note";
 
 const useIsActiveNote = () => {
   const { noteId: selectedNoteId } = useParams();
@@ -45,14 +46,26 @@ export const NoteList = ({ bookId }) => {
 }
 
 const BookTitleBar = ({ bookId }) => {
+  const dispatch = useDispatch()
   const book = useSelector(state => selectBookById(state, bookId))
+
+  const navigate = useNavigate()
+
+  const handleNewNote = useCallback(async () => {
+    dispatch(createNewNote(bookId))
+      .unwrap()
+      .then((note) => {
+        navigate(`/app/${note.bookId}/${note.id}`)
+      })
+  }, [bookId])
+
 
   if (!book) return null;
 
   return (
     <div className="py-1 border-b border-white flex">
       <span className="flex-1 text-center truncate">{book.name}</span>
-      <span className="flex-none mr-2 cursor-pointer hero-pencil-square text-gray-400"/>
+      <span className="flex-none mr-2 cursor-pointer hero-pencil-square text-gray-400" onClick={handleNewNote}/>
     </div>
   )
 }

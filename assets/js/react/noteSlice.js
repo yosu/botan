@@ -1,9 +1,11 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createNote } from "../api/note";
 
-// TODO: Add sort comparer
 const noteAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt)
 })
+
+export const createNewNote = createAsyncThunk("notes/createNewNote", createNote)
 
 const initialState = noteAdapter.getInitialState()
 
@@ -22,6 +24,9 @@ export const noteSlice = createSlice({
     allNoteSet(state, action) {
       noteAdapter.setAll(state, action.payload)
     }
+  },
+  extraReducers: builder => {
+    builder.addCase(createNewNote.fulfilled, (state, action) => noteAdapter.addOne(state, action.payload))
   }
 })
 
