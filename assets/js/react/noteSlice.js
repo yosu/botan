@@ -30,3 +30,8 @@ export default noteSlice.reducer
 export const { noteTitleUpdated, noteBodyUpdated, allNoteSet } = noteSlice.actions
 
 export const { selectAll: selectAllNote, selectById: selectNoteById } = noteAdapter.getSelectors((state) => state.notes)
+
+export const selectFirstNote = (state => {
+  const [note] = selectAllNote(state)
+  return note
+})

@@ -2,14 +2,29 @@ import React, { useEffect } from "react";
 import { BookTree, useBookTree } from "./BookTree";
 import { NoteList } from "./NoteList";
 import { Note } from "./Note";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { allBookSet, SelectAllBooks } from "./bookSlice";
+import { selectFirstNote } from "./noteSlice";
+
+const useRidrectIfFirstNoteExist = (bookId, noteId) => {
+  const navigate = useNavigate();
+  const firstNote = useSelector(selectFirstNote);
+
+  useEffect(() => {
+    if (!noteId && firstNote && firstNote.bookId === bookId) {
+      navigate(`/app/${bookId}/${firstNote.id}`)
+    }
+
+  }, [bookId, noteId, firstNote])
+}
 
 const App = ({ props }) => {
   const { bookId, noteId } = useParams();
+  useRidrectIfFirstNoteExist(bookId, noteId);
+
   const dispatch = useDispatch();
-  const books = useSelector(SelectAllBooks)
+  const books = useSelector(SelectAllBooks);
 
   useEffect(() => {
     dispatch(allBookSet(props.books))
