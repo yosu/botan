@@ -52,7 +52,7 @@ const BookTitleBar = ({ bookId }) => {
   return (
     <div className="py-1 border-b border-white flex">
       <span className="flex-1 text-center truncate">{book.name}</span>
-      <span className="flex-none px-2 cursor-pointer">✏️</span>
+      <span className="flex-none mr-2 cursor-pointer hero-pencil-square text-gray-400"/>
     </div>
   )
 }

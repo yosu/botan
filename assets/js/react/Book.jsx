@@ -26,7 +26,7 @@ const ParentBook = ({ book }) => {
   return (
     <>
       <BookNameWrapper bookId={book.id} onClick={toggleOpen}>
-        <span className="hover:text-zinc-400">{open ? "v" : ">"}</span> {book.name}
+        <span className={classNames("w-4 h-4", open ? "hero-chevron-down" : "hero-chevron-right")} />{book.name}
       </BookNameWrapper>
       {open &&
         <div className="ml-4">
