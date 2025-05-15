@@ -16,7 +16,7 @@ export const Note = ({ noteId }) => {
   return (
     note &&
     <div>
-      <input type="text" value={note.title} onChange={onChangeTitle} className="w-full bg-transparent border-none focus:ring-0"/>
+      <input type="text" value={note.title} placeholder="Untitled" onChange={onChangeTitle} className="w-full bg-transparent border-none focus:ring-0"/>
       <MilkdownEditorWrapper noteId={note.id} />
     </div>
   )

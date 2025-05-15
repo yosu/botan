@@ -24,7 +24,7 @@ export const updateBody = debounce((id, body) => {
 export const createNote = async (bookId) => {
   const fd = new FormData();
   fd.append("note[book_id]", bookId)
-  fd.append("note[title]", "Untitled")
+  fd.append("note[title]", "")
   fd.append("note[body]", "")
 
   const resp = await fetch(`/api/notes`, {

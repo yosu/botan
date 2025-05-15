@@ -88,7 +88,7 @@ const NoteTitle = ({ note, isActive }) => {
         "border-b border-zinc-300 select-none cursor-pointer",
         isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
       )}>
-        <h3>{note.title}</h3>
+        <h3 className={note.title || "text-gray-600"}>{note.title || "Untitled"}</h3>
         <UpdatedAt timestamp={note.updatedAt}/>
       </div>
     </Link>
