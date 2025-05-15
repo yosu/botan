@@ -1,11 +1,12 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { createNote } from "../api/note";
+import { createNote, deleteNote as deleteOneNote } from "../api/note";
 
 const noteAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt)
 })
 
 export const createNewNote = createAsyncThunk("notes/createNewNote", createNote)
+export const deleteNote = createAsyncThunk("notes/deleteNote", deleteOneNote)
 
 const initialState = noteAdapter.getInitialState()
 
@@ -27,6 +28,7 @@ export const noteSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(createNewNote.fulfilled, (state, action) => noteAdapter.addOne(state, action.payload))
+    builder.addCase(deleteNote.fulfilled, (state, action) => noteAdapter.removeOne(state, action.payload))
   }
 })
 

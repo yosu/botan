@@ -19,7 +19,6 @@ export const updateBody = debounce((id, body) => {
       "method": "PATCH",
       "body": fd
     })
-
 }, 1000)
 
 export const createNote = async (bookId) => {
@@ -35,4 +34,16 @@ export const createNote = async (bookId) => {
 
   const json = await resp.json()
   return json.data
+}
+
+export const deleteNote = async (noteId) => {
+  const resp = await fetch(`/api/notes/${noteId}`, {
+    method: "DELETE"
+  })
+
+  if (!resp.ok) {
+    throw new Error(`レスポンスステータス: ${resp.status}`)
+  }
+
+  return noteId
 }

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect } from "react"
 import { Link, useNavigate, useParams } from "react-router";
-import { allNoteSet, createNewNote, selectAllNote } from "./noteSlice";
+import { allNoteSet, createNewNote, selectAllNote, deleteNote } from "./noteSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO } from "date-fns"
 import classNames from "classnames";
 import { selectBookById } from "./bookSlice";
-import { createNote } from "../api/note";
 
 const useIsActiveNote = () => {
   const { noteId: selectedNoteId } = useParams();
@@ -59,7 +58,6 @@ const BookTitleBar = ({ bookId }) => {
       })
   }, [bookId])
 
-
   if (!book) return null;
 
   return (
@@ -71,8 +69,21 @@ const BookTitleBar = ({ bookId }) => {
 }
 
 const NoteTitle = ({ note, isActive }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleKeyDown = (e) => {
+    if (e.metaKey && e.code.toLowerCase() === "backspace") {
+      dispatch(deleteNote(note.id))
+        .unwrap()
+        .then(() => {
+          navigate(`/app/${note.bookId}`)
+        })
+    }
+  }
+
   return (
-    <Link to={`/app/${note.bookId}/${note.id}`}>
+    <Link to={`/app/${note.bookId}/${note.id}`} onKeyDown={handleKeyDown}>
       <div className={classNames(
         "border-b border-zinc-300 select-none cursor-pointer",
         isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
