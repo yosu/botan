@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BookTree, useBookTree } from "./BookTree"
-import { SelectAllBooks } from "./bookSlice";
+import { createNewBook, SelectAllBooks } from "./bookSlice";
 import Modal from "react-modal"
 import classNames from "classnames";
 
@@ -39,6 +39,7 @@ const NotebooksBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("")
   const [createButtonDisabled, setCreateButtonDisabled] = useState(true)
+  const dispatch = useDispatch();
 
   const handleChangeName = (e) => {
     setName(e.target.value)
@@ -53,10 +54,13 @@ const NotebooksBar = () => {
     setCreateButtonDisabled(name === "");
   }, [name])
 
-  const handleCreateNewNotebook = () => {
-    console.log("Create: ", name)
-    closeModal(true)
-  }
+  const handleCreateNewNotebook = useCallback(() => {
+    dispatch(createNewBook(name))
+      .unwrap()
+      .then(() => {
+        closeModal(true)
+      })
+  }, [name])
 
   return (
     <>

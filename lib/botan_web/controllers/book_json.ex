@@ -18,7 +18,8 @@ defmodule BotanWeb.BookJSON do
   defp data(%Book{} = book) do
     %{
       id: book.id,
-      name: book.name
+      name: book.name,
+      parent_book_id: book.parent_book_id
     }
   end
 end
