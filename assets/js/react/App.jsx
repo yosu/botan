@@ -32,7 +32,7 @@ const App = ({ props }) => {
 
   return (
     <div id="wrapper" className="flex min-h-[calc(100vh-34px)]">
-      <div id="books" className="bg-red-100 p-2 w-56 h-screen overflow-y-auto">
+      <div id="books" className="bg-red-100 w-56 h-screen overflow-y-auto">
         <BookList />
       </div>
       <div id="notes" className="bg-orange-100 w-56 h-screen overflow-y-auto">
