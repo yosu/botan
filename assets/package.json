@@ -8,6 +8,7 @@
     "just-group-by": "^2.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router": "^7.4.0",
     "remount": "^1.0.0"
