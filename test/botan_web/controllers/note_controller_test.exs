@@ -64,7 +64,8 @@ defmodule BotanWeb.NoteControllerTest do
     setup [:register_and_log_in_user]
 
     test "renders note when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/api/notes", note: @create_attrs)
+      book = book_fixture()
+      conn = post(conn, ~p"/api/notes", note: Enum.into(@create_attrs, %{book_id: book.id}))
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, ~p"/api/notes/#{id}")

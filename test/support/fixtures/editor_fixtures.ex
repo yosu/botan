@@ -5,7 +5,8 @@ defmodule Botan.EditorFixtures do
   def valid_note_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
       title: "some title",
-      body: "some body"
+      body: "some body",
+      book_id: book_fixture().id
     })
   end
 
