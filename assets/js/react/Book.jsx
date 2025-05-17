@@ -2,10 +2,13 @@ import React, {useState, useCallback} from "react";
 import { BookTree } from "./BookTree";
 import { NavLink } from "react-router";
 import classNames from "classnames";
+import { useOnContextMenu } from "./components/ContextMenu";
 
 export const Book = ({ book }) => {
   return (
-    book.children?.length > 0 ? <ParentBook book={book} /> : <LeafBook book={book} />
+    book.children?.length > 0
+      ? <ParentBook book={book}/>
+      : <LeafBook book={book}/>
   );
 }
 
@@ -30,7 +33,7 @@ const ParentBook = ({ book }) => {
       </BookNameWrapper>
       {open &&
         <div className="ml-4">
-              <BookTree books={book.children} />
+          <BookTree books={book.children}/>
         </div>
       }
     </>
@@ -38,12 +41,15 @@ const ParentBook = ({ book }) => {
 }
 
 const BookNameWrapper = ({ bookId, onClick, children }) => {
+  const onContextMenu = useOnContextMenu()
+
   return (
     <NavLink to={`/app/${bookId}`}>
       {
         ({ isActive }) => (
           <div
             className={classNames("select-none text-nowrap cursor-pointer", isActive ? "bg-red-200 hover:bg-red-300" : "hover:bg-red-200")}
+            onContextMenu={(e) => onContextMenu(e, { bookId })}
             onClick={onClick}>
             {children}
           </div>

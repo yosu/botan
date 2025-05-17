@@ -6,7 +6,7 @@ export const BookTree = ({ books }) => {
   return (
     books.map(book =>
       <div key={book.id}>
-        <Book book={book} />
+        <Book book={book}/>
     </div>)
   );
 }

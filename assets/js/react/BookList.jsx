@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BookTree, useBookTree } from "./BookTree"
 import { createNewBook, SelectAllBooks } from "./bookSlice";
 import Modal from "react-modal"
 import classNames from "classnames";
+import { ContextMenu, ContextMenuProvider, MenuItem, useContextMenu } from "./components/ContextMenu";
 
 // TODO: create 'components' directory and move to the directory
 const Button = ({ children, onClick, className, disabled }) => {
@@ -97,10 +98,31 @@ export const BookList = () => {
   const books = useSelector(SelectAllBooks);
   const bookTree = useBookTree(books);
 
+  const { x, y, isOpen, onContextMenu, menuContext } = useContextMenu()
+
+  const handleMenu = (menuId) => {
+    const { bookId } = menuContext;
+
+    switch (menuId) {
+      case "rename-notebook":
+        console.log(`${bookId} の名前を変更`)
+        break;
+      case "delete-notebook":
+        console.log(`${bookId} を削除`)
+        break;
+    }
+  }
+
   return (
     <>
+      <ContextMenu x={x} y={y} isOpen={isOpen}>
+        <MenuItem menuId="rename-notebook" onClick={handleMenu}>ブック名を変更</MenuItem>
+        <MenuItem menuId="delete-notebook" onClick={handleMenu}>ブックを削除</MenuItem>
+      </ContextMenu>
       <NotebooksBar />
-      <BookTree books={bookTree} />
+      <ContextMenuProvider onContextMenu={onContextMenu}>
+        <BookTree books={bookTree} />
+      </ContextMenuProvider>
     </>
   )
 }
