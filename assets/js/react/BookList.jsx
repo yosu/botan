@@ -5,6 +5,7 @@ import { createNewBook, SelectAllBooks } from "./bookSlice";
 import Modal from "react-modal"
 import classNames from "classnames";
 import { ContextMenu, ContextMenuProvider, MenuItem, useContextMenu } from "./components/ContextMenu";
+import { getNoteListByBookId } from "../api/note";
 
 // TODO: create 'components' directory and move to the directory
 const Button = ({ children, onClick, className, disabled }) => {
@@ -97,8 +98,14 @@ const NotebooksBar = () => {
 export const BookList = () => {
   const books = useSelector(SelectAllBooks);
   const bookTree = useBookTree(books);
+  const [canDelete, setCanDelete] = useState(true);
 
-  const { x, y, isOpen, onContextMenu, menuContext } = useContextMenu()
+  const onOpenContextMenu = async ({ bookId }) => {
+    const notes = await getNoteListByBookId(bookId)
+    setCanDelete(notes.length === 0)
+  }
+
+  const { x, y, isOpen, onContextMenu, menuContext } = useContextMenu(onOpenContextMenu)
 
   const handleMenu = (menuId) => {
     const { bookId } = menuContext;
@@ -117,7 +124,7 @@ export const BookList = () => {
     <>
       <ContextMenu x={x} y={y} isOpen={isOpen}>
         <MenuItem menuId="rename-notebook" onClick={handleMenu}>ブック名を変更</MenuItem>
-        <MenuItem menuId="delete-notebook" onClick={handleMenu}>ブックを削除</MenuItem>
+        <MenuItem menuId="delete-notebook" onClick={handleMenu} disabled={!canDelete}>ブックを削除</MenuItem>
       </ContextMenu>
       <NotebooksBar />
       <ContextMenuProvider onContextMenu={onContextMenu}>

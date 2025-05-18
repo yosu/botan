@@ -26,7 +26,7 @@ export const ContextMenu = ({x, y, isOpen, children}) => {
   )
 }
 
-export const useContextMenu = () => {
+export const useContextMenu = (onOpen) => {
   const [{ x, y }, setXY] = useState({x: 0, y: 0})
   const [isOpen, setIsOpen] = useState(false)
   const [menuContext, setMenuContext] = useState({});
@@ -47,6 +47,8 @@ export const useContextMenu = () => {
 
   const onContextMenu = useCallback((e, context) => {
     e.preventDefault()
+
+    onOpen(context)
 
     setMenuContext(context)
     setIsOpen(true)

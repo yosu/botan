@@ -47,3 +47,15 @@ export const deleteNote = async (noteId) => {
 
   return noteId
 }
+
+export const getNoteListByBookId = async (bookId) => {
+  const resp = await fetch(`/api/notes?book_id=${bookId}`)
+
+  if (!resp.ok) {
+    throw new Error(`レスポンスステータス: ${resp.status}`)
+  }
+
+  const json = await resp.json()
+  return json.data
+
+}
