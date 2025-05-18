@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, createContext, useContext, useCallback } from "react"
 import classNames from "classnames"
 
-export const MenuItem = ({ children, menuId, onClick }) => {
+export const MenuItem = ({ children, menuId, disabled, onClick }) => {
   return (
     <div
-      className="hover:bg-blue-500 hover:text-white px-3 cursor-pointer"
-      onClick={() => onClick(menuId)}
+      className={disabled ? "text-gray-400 px-3" : "hover:bg-blue-500 hover:text-white px-3 cursor-pointer"}
+      onClick={() => disabled || onClick(menuId)}
     >
       {children}
     </div>
@@ -29,7 +29,7 @@ export const ContextMenu = ({x, y, isOpen, children}) => {
 export const useContextMenu = () => {
   const [{ x, y }, setXY] = useState({x: 0, y: 0})
   const [isOpen, setIsOpen] = useState(false)
-  const contextRef = useRef(null)
+  const [menuContext, setMenuContext] = useState({});
 
   useEffect(() => {
     if (isOpen) {
@@ -48,12 +48,12 @@ export const useContextMenu = () => {
   const onContextMenu = useCallback((e, context) => {
     e.preventDefault()
 
-    contextRef.current = context
+    setMenuContext(context)
     setIsOpen(true)
     setXY({x: e.clientX, y: e.clientY})
   }, [])
 
-  return { x, y, isOpen, onContextMenu, menuContext: contextRef.current }
+  return { x, y, isOpen, onContextMenu, menuContext }
 }
 
 const ContextMenuContext = createContext(null)
