@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, createContext, useContext } from "react"
+import React, { useState, useRef, useEffect, createContext, useContext, useCallback } from "react"
 import classNames from "classnames"
 
 export const MenuItem = ({ children, menuId, onClick }) => {
@@ -45,13 +45,13 @@ export const useContextMenu = () => {
     }
   }, [isOpen])
 
-  const onContextMenu = (e, context) => {
+  const onContextMenu = useCallback((e, context) => {
     e.preventDefault()
 
     contextRef.current = context
     setIsOpen(true)
     setXY({x: e.clientX, y: e.clientY})
-  }
+  }, [])
 
   return { x, y, isOpen, onContextMenu, menuContext: contextRef.current }
 }
