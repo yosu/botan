@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { createBook } from "../api/ book";
+import { createBook } from "../api/book";
 
 const bookAdapter = createEntityAdapter()
 
