@@ -3,26 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { BookTree, useBookTree } from "./BookTree"
 import { createNewBook, deleteBook, SelectAllBooks } from "./bookSlice";
 import Modal from "react-modal"
-import classNames from "classnames";
 import { ContextMenu, ContextMenuProvider, MenuItem, useContextMenu } from "./components/ContextMenu";
 import { getNoteListByBookId } from "../api/note";
-
-// TODO: create 'components' directory and move to the directory
-const Button = ({ children, onClick, className, disabled }) => {
-  return (
-    <button
-      type="button"
-      className={classNames(
-        "rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
-        className)}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  )
-}
+import { Button } from "./components/Button";
 
 const modalStyles = {
   content: {
