@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BookTree, useBookTree } from "./BookTree"
-import { createNewBook, SelectAllBooks } from "./bookSlice";
+import { createNewBook, deleteBook, SelectAllBooks } from "./bookSlice";
 import Modal from "react-modal"
 import classNames from "classnames";
 import { ContextMenu, ContextMenuProvider, MenuItem, useContextMenu } from "./components/ContextMenu";
@@ -99,6 +99,7 @@ export const BookList = () => {
   const books = useSelector(SelectAllBooks);
   const bookTree = useBookTree(books);
   const [canDelete, setCanDelete] = useState(true);
+  const dispatch = useDispatch()
 
   const onOpenContextMenu = async ({ bookId }) => {
     const notes = await getNoteListByBookId(bookId)
@@ -115,7 +116,8 @@ export const BookList = () => {
         console.log(`${bookId} の名前を変更`)
         break;
       case "delete-notebook":
-        console.log(`${bookId} を削除`)
+        dispatch(deleteBook(bookId))
+          .unwrap()
         break;
     }
   }

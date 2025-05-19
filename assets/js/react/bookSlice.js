@@ -1,9 +1,10 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { createBook } from "../api/book";
+import { createBook, deleteBook as deleteOneBook } from "../api/book";
 
 const bookAdapter = createEntityAdapter()
 
 export const createNewBook = createAsyncThunk("books/createNewBook", (name) => createBook(name))
+export const deleteBook = createAsyncThunk("books/deleteBook", (bookId) => deleteOneBook(bookId))
 
 const initialState = bookAdapter.getInitialState()
 
@@ -17,6 +18,7 @@ const bookSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(createNewBook.fulfilled, (state, action) => bookAdapter.addOne(state, action.payload))
+    builder.addCase(deleteBook.fulfilled, (state, action) => bookAdapter.removeOne(state, action.payload))
   }
 })
 

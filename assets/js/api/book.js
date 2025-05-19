@@ -12,3 +12,13 @@ export const createBook = async (name, parentBookId = null) => {
   const json = await resp.json()
   return json.data
 }
+
+export const deleteBook = async (bookId) => {
+  const resp = await fetch(`/api/books/${bookId}`, { method: "DELETE" })
+
+  if (!resp.ok) {
+    throw new Error(`レスポンスステータス: ${resp.status}`)
+  }
+
+  return bookId
+}
