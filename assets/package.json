@@ -4,6 +4,8 @@
     "@milkdown/react": "^7.9.0",
     "@reduxjs/toolkit": "^2.7.0",
     "classnames": "^2.5.1",
+    "codemirror": "^6.0.1",
+    "codemirror-lang-elixir": "^4.0.0",
     "date-fns": "^4.1.0",
     "just-group-by": "^2.2.0",
     "react": "^19.0.0",

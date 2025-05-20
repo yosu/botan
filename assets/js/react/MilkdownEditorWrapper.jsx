@@ -11,6 +11,12 @@ import { upload, uploadConfig } from "@milkdown/kit/plugin/upload";
 import React, { useRef, useEffect, useState } from "react";
 import { updateBody } from "../api/note";
 import { getCSRFToken } from "../util/csrf";
+import { defaultKeymap } from "@codemirror/commands"
+import { basicSetup } from "codemirror"
+import { languages } from "@codemirror/language-data";
+import { keymap } from "@codemirror/view"
+import { codeBlockComponent, codeBlockConfig } from "@milkdown/kit/component/code-block"
+import { elixir } from "codemirror-lang-elixir"
 
 const uploader = async (files, schema) => {
   const images = [];
@@ -92,6 +98,12 @@ const MilkdownEditor = ({ note }) => {
             click: handleElementClick
           }
         })
+
+        ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+          ...defaultConfig,
+          languages,
+          extensions: [basicSetup, keymap.of(defaultKeymap), elixir()],
+        }))
       })
       .use(commonmark)
       .use(gfm)
@@ -101,6 +113,7 @@ const MilkdownEditor = ({ note }) => {
       .use(listener)
       .use(upload)
       .use(clipboard) // paste url as a link
+      .use(codeBlockComponent)
 
     editorRef.value.create();
   }, [note])

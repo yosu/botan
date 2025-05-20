@@ -28,7 +28,14 @@
     @apply text-lg
   }
 
-  pre {
-    @apply bg-gray-100
+  /* Hide language selection UI on the code block */
+  .milkdown-code-block {
+    .tools {
+      @apply hidden
+    }
+  }
+
+  .milkdown-code-block {
+    @apply my-1
   }
 }
