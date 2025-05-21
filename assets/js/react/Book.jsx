@@ -48,7 +48,7 @@ const BookNameWrapper = ({ bookId, onClick, children }) => {
       {
         ({ isActive }) => (
           <div
-            className={classNames("select-none text-nowrap cursor-pointer", isActive ? "bg-red-200 hover:bg-red-300" : "hover:bg-red-200")}
+            className={classNames("select-none text-nowrap cursor-pointer", isActive ? "bg-zinc-500 hover:bg-zinc-600" : "hover:bg-zinc-500")}
             onContextMenu={(e) => onContextMenu(e, { bookId })}
             onClick={onClick}>
             {children}

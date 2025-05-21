@@ -85,10 +85,10 @@ const NoteTitle = ({ note, isActive }) => {
   return (
     <Link to={`/app/${note.bookId}/${note.id}`} onKeyDown={handleKeyDown}>
       <div className={classNames(
-        "border-b border-zinc-300 select-none cursor-pointer",
-        isActive ? "bg-orange-200 hover:bg-orange-300" : "hover:bg-orange-200"
+        "p-1 border-b border-zinc-300 select-none cursor-pointer",
+        isActive ? "bg-gray-300 hover:bg-gray-400" : "hover:bg-gray-300"
       )}>
-        <h3 className={note.title || "text-gray-600"}>{note.title || "Untitled"}</h3>
+        <h3 className={note.title ? "text-xs font-semibold" : "text-gray-600"}>{note.title || "Untitled"}</h3>
         <UpdatedAt timestamp={note.updatedAt}/>
       </div>
     </Link>

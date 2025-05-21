@@ -32,13 +32,13 @@ const App = ({ props }) => {
 
   return (
     <div id="wrapper" className="flex min-h-[calc(100vh-34px)]">
-      <div id="books" className="bg-red-100 w-56 h-screen overflow-y-auto">
+      <div id="books" className="bg-zinc-700 text-white w-56 h-screen overflow-y-auto">
         <BookList />
       </div>
-      <div id="notes" className="bg-orange-100 w-56 h-screen overflow-y-auto">
+      <div id="notes" className="bg-gray-100 w-56 h-screen overflow-y-auto">
         {bookId ? <NoteList bookId={bookId}/>: "No notebooks"}
       </div>
-      <div id="content" className="bg-yellow-50 w-full h-screen overflow-y-auto">
+      <div id="content" className="bg-gray-50 w-full h-screen overflow-y-auto">
         {noteId ? <Note noteId={noteId} /> : "No contents"}
       </div>
     </div>
