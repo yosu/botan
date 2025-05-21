@@ -32,4 +32,10 @@ defmodule Botan.Editor.Note do
     |> cast(attrs, [:id, :title, :body, :book_id, :inserted_at, :updated_at], empty_values: [nil])
     |> validate_not_nil([:id, :title, :body, :inserted_at, :updated_at])
   end
+
+  def replace_changeset(note, attrs) do
+    note
+    |> cast(attrs, [:body, :updated_at], empty_values: [nil], force_changes: true)
+    |> validate_not_nil([:body, :updated_at])
+  end
 end

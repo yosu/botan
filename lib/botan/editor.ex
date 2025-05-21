@@ -214,7 +214,8 @@ defmodule Botan.Editor do
     for note <- Repo.all(Botan.Editor.Note) do
       body = Regex.replace(~r"inkdrop://", note.body, "/file/")
 
-      Botan.Editor.Note.changeset(note, %{body: body})
+      # Don't update the updated_at
+      Botan.Editor.Note.replace_changeset(note, %{body: body, updated_at: note.updated_at})
       |> Repo.update()
     end
   end
