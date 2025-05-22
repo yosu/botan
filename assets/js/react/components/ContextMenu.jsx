@@ -4,7 +4,7 @@ import classNames from "classnames"
 export const MenuItem = ({ children, menuId, disabled, onClick }) => {
   return (
     <div
-      className={disabled ? "text-gray-400 px-3" : "hover:bg-blue-500 hover:text-white px-3 cursor-pointer"}
+      className={disabled ? "text-gray-400 px-3" : "text-black hover:bg-blue-500 hover:text-white px-3 cursor-pointer"}
       onClick={() => disabled || onClick(menuId)}
     >
       {children}
