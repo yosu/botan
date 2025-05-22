@@ -24,6 +24,9 @@ ENV ERL_FLAGS="+JPperf true"
 
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
+    && apt-get install -y curl \
+    && curl -sL https://deb.nodesource.com/setup_16.x | bash \
+    && apt-get install -y nodejs \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # prepare build dir
