@@ -16,11 +16,13 @@ export const noteSlice = createSlice({
   reducers: {
     noteTitleUpdated(state, action) {
       const { id, title } = action.payload
-      noteAdapter.updateOne(state, {id, changes: { title }})
+      const updatedAt = new Date().toISOString()
+      noteAdapter.updateOne(state, {id, changes: { title, updatedAt }})
     },
-    noteBodyUpdated(state, action) {
-      const { id, body } = action.payload
-      noteAdapter.updateOne(state, {id, changes: { body }})
+    noteTouched(state, action) {
+      const { id, } = action.payload
+      const updatedAt = new Date().toISOString()
+      noteAdapter.updateOne(state, {id, changes: { updatedAt }})
     },
     allNoteSet(state, action) {
       noteAdapter.setAll(state, action.payload)
@@ -34,7 +36,7 @@ export const noteSlice = createSlice({
 
 export default noteSlice.reducer
 
-export const { noteTitleUpdated, noteBodyUpdated, allNoteSet } = noteSlice.actions
+export const { noteTitleUpdated, noteTouched, allNoteSet } = noteSlice.actions
 
 export const { selectAll: selectAllNote, selectById: selectNoteById } = noteAdapter.getSelectors((state) => state.notes)
 

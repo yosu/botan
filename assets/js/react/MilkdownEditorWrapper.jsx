@@ -17,6 +17,8 @@ import { languages } from "@codemirror/language-data";
 import { keymap } from "@codemirror/view"
 import { codeBlockComponent, codeBlockConfig } from "@milkdown/kit/component/code-block"
 import { elixir } from "codemirror-lang-elixir"
+import { useDispatch } from "react-redux";
+import { noteTouched } from "./noteSlice";
 
 const uploader = async (files, schema) => {
   const images = [];
@@ -77,6 +79,7 @@ const handleElementClick = (view, event) => {
 
 const MilkdownEditor = ({ note }) => {
   const editorRef = useRef(null)
+  const dispatch = useDispatch()
 
   useEditor((root) => {
     editorRef.value = Editor.make()
@@ -88,6 +91,7 @@ const MilkdownEditor = ({ note }) => {
           //   MilkdownError: Create prosemirror node from remark failed in parser
           replaced = markdown.replace(/\* <br \/>/g, "")
           updateBody(note.id, replaced)
+          dispatch(noteTouched({ id: note.id }))
         })
         ctx.update(uploadConfig.key, (prev) => ({
           ...prev,
