@@ -48,7 +48,7 @@ defmodule BotanWeb.BookControllerTest do
   end
 
   describe "update book" do
-    setup [:create_book, :register_and_log_in_user]
+    setup [:register_and_log_in_user, :create_book]
 
     test "renders book when data is valid", %{conn: conn, book: %Book{id: id} = book} do
       conn = put(conn, ~p"/api/books/#{book}", book: @update_attrs)
@@ -69,7 +69,7 @@ defmodule BotanWeb.BookControllerTest do
   end
 
   describe "delete book" do
-    setup [:create_book, :register_and_log_in_user]
+    setup [:register_and_log_in_user, :create_book]
 
     test "deletes chosen book", %{conn: conn, book: book} do
       conn = delete(conn, ~p"/api/books/#{book}")
@@ -81,8 +81,8 @@ defmodule BotanWeb.BookControllerTest do
     end
   end
 
-  defp create_book(_) do
-    book = book_fixture()
+  defp create_book(%{scope: scope}) do
+    book = book_fixture(scope)
     %{book: book}
   end
 end

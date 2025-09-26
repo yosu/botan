@@ -43,7 +43,7 @@ defmodule BotanWeb.NoteControllerTest do
 
     test "lists filter by book_id params", %{conn: conn, scope: scope} do
       note_fixture(scope)
-      book = book_fixture()
+      book = book_fixture(scope)
       note = note_fixture(scope, %{book_id: book.id})
 
       conn = get(conn, ~p"/api/notes?book_id=#{book.id}")
@@ -63,8 +63,8 @@ defmodule BotanWeb.NoteControllerTest do
   describe "create note" do
     setup [:register_and_log_in_user]
 
-    test "renders note when data is valid", %{conn: conn} do
-      book = book_fixture()
+    test "renders note when data is valid", %{conn: conn, scope: scope} do
+      book = book_fixture(scope)
       conn = post(conn, ~p"/api/notes", note: Enum.into(@create_attrs, %{book_id: book.id}))
       assert %{"id" => id} = json_response(conn, 201)["data"]
 

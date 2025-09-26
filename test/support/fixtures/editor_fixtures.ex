@@ -2,18 +2,18 @@ defmodule Botan.EditorFixtures do
   @moduledoc false
   alias Botan.Editor
 
-  def valid_note_attributes(attrs \\ %{}) do
+  def valid_note_attributes(attrs \\ %{}, scope) do
     Enum.into(attrs, %{
       title: "some title",
       body: "some body",
-      book_id: book_fixture().id
+      book_id: book_fixture(scope).id
     })
   end
 
   def note_fixture(scope, attrs \\ %{}) do
     attrs =
       attrs
-      |> valid_note_attributes()
+      |> valid_note_attributes(scope)
 
     {:ok, note} = Editor.create_note(scope, attrs)
     note
@@ -25,12 +25,12 @@ defmodule Botan.EditorFixtures do
     })
   end
 
-  def book_fixture(attrs \\ %{}) do
-    {:ok, book} =
+  def book_fixture(scope, attrs \\ %{}) do
+    attrs =
       attrs
       |> valid_book_attributes()
-      |> Editor.create_book()
 
+    {:ok, book} = Editor.create_book(scope, attrs)
     book
   end
 end

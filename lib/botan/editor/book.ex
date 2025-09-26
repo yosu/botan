@@ -14,10 +14,11 @@ defmodule Botan.Editor.Book do
   end
 
   @doc false
-  def changeset(book, attrs) do
+  def changeset(book, attrs, scope) do
     book
     |> cast(attrs, [:name, :parent_book_id])
     |> validate_required([:name])
+    |> put_change(:user_id, scope.user.id)
   end
 
   def import_changeset(attrs) do

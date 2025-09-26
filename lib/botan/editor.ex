@@ -232,12 +232,12 @@ defmodule Botan.Editor do
 
   ## Examples
 
-      iex> list_books()
+      iex> list_books(scope)
       [%Book{}, ...]
 
   """
-  def list_books do
-    Repo.all(Book)
+  def list_books(%Scope{} = user_scope) do
+    Repo.all_by(Book, user_id: user_scope.user.id)
   end
 
   @doc """
@@ -254,7 +254,7 @@ defmodule Botan.Editor do
       ** (Ecto.NoResultsError)
 
   """
-  def get_book!(id), do: Repo.get!(Book, id)
+  def get_book!(%Scope{} = scope, id), do: Repo.get_by!(Book, id: id, user_id: scope.user.id)
 
   @doc """
   Creates a book.
@@ -268,9 +268,9 @@ defmodule Botan.Editor do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_book(attrs \\ %{}) do
+  def create_book(%Scope{} = scope, attrs \\ %{}) do
     %Book{}
-    |> Book.changeset(attrs)
+    |> Book.changeset(attrs, scope)
     |> Repo.insert()
   end
 
@@ -286,9 +286,11 @@ defmodule Botan.Editor do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_book(%Book{} = book, attrs) do
+  def update_book(scope, %Book{} = book, attrs) do
+    true = book.user_id == scope.user.id
+
     book
-    |> Book.changeset(attrs)
+    |> Book.changeset(attrs, scope)
     |> Repo.update()
   end
 
@@ -304,7 +306,8 @@ defmodule Botan.Editor do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_book(%Book{} = book) do
+  def delete_book(scope, %Book{} = book) do
+    true = book.user_id == scope.user.id
     Repo.delete(book)
   end
 
@@ -317,7 +320,7 @@ defmodule Botan.Editor do
       %Ecto.Changeset{data: %Book{}}
 
   """
-  def change_book(%Book{} = book, attrs \\ %{}) do
-    Book.changeset(book, attrs)
+  def change_book(%Book{} = book, attrs \\ %{}, scope) do
+    Book.changeset(book, attrs, scope)
   end
 end
