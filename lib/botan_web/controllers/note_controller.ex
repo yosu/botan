@@ -42,7 +42,7 @@ defmodule BotanWeb.NoteController do
   def delete(conn, %{"id" => id}) do
     note = Editor.get_note!(conn.assigns.current_scope, id)
 
-    with {:ok, %Note{}} <- Editor.delete_note(note) do
+    with {:ok, %Note{}} <- Editor.delete_note(conn.assigns.current_scope, note) do
       send_resp(conn, :no_content, "")
     end
   end

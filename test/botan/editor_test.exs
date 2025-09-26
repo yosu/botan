@@ -59,16 +59,16 @@ defmodule Botan.EditorTest do
     test "delete_note/2 deletes the note" do
       scope = user_scope_fixture()
       note = note_fixture(scope)
-      assert {:ok, %Note{}} = Editor.delete_note(note)
+      assert {:ok, %Note{}} = Editor.delete_note(scope, note)
       assert_raise Ecto.NoResultsError, fn -> Editor.get_note!(scope, note.id) end
     end
 
-    # test "delete_note/2 with invalid scope raises" do
-    #   scope = user_scope_fixture()
-    #   other_scope = user_scope_fixture()
-    #   note = note_fixture(scope)
-    #   assert_raise MatchError, fn -> Editor.delete_note(other_scope, note) end
-    # end
+    test "delete_note/2 with invalid scope raises" do
+      scope = user_scope_fixture()
+      other_scope = user_scope_fixture()
+      note = note_fixture(scope)
+      assert_raise MatchError, fn -> Editor.delete_note(other_scope, note) end
+    end
 
     test "list_notes/0 returns all notes" do
       scope = user_scope_fixture()

@@ -138,7 +138,9 @@ defmodule Botan.Editor do
     |> Repo.update()
   end
 
-  def delete_note(%Note{} = note) do
+  def delete_note(scope, %Note{} = note) do
+    true = note.user_id == scope.user.id
+
     Repo.delete(note)
   end
 
