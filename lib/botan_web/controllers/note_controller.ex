@@ -27,12 +27,12 @@ defmodule BotanWeb.NoteController do
   end
 
   def show(conn, %{"id" => id}) do
-    note = Editor.get_note!(id)
+    note = Editor.get_note!(conn.assigns.current_scope, id)
     render(conn, :show, note: note)
   end
 
   def update(conn, %{"id" => id, "note" => note_params}) do
-    note = Editor.get_note!(id)
+    note = Editor.get_note!(conn.assigns.current_scope, id)
 
     with {:ok, %Note{} = note} <- Editor.update_note(conn.assigns.current_scope, note, note_params) do
       render(conn, :show, note: note)
@@ -40,7 +40,7 @@ defmodule BotanWeb.NoteController do
   end
 
   def delete(conn, %{"id" => id}) do
-    note = Editor.get_note!(id)
+    note = Editor.get_note!(conn.assigns.current_scope, id)
 
     with {:ok, %Note{}} <- Editor.delete_note(note) do
       send_resp(conn, :no_content, "")

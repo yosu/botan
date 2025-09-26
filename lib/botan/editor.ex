@@ -108,8 +108,8 @@ defmodule Botan.Editor do
     Repo.all(Note.Query.by_book(book_id))
   end
 
-  def get_note!(id) do
-    Repo.get!(Note, id)
+  def get_note!(scope, id) do
+    Repo.get_by!(Note, id: id, user_id: scope.user.id)
   end
 
   @doc """

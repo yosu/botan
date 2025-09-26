@@ -53,14 +53,14 @@ defmodule Botan.EditorTest do
       scope = user_scope_fixture()
       note = note_fixture(scope)
       assert {:error, %Ecto.Changeset{}} = Editor.update_note(scope, note, @invalid_attrs)
-      assert note == Editor.get_note!(note.id)
+      assert note == Editor.get_note!(scope, note.id)
     end
 
     test "delete_note/2 deletes the note" do
       scope = user_scope_fixture()
       note = note_fixture(scope)
       assert {:ok, %Note{}} = Editor.delete_note(note)
-      assert_raise Ecto.NoResultsError, fn -> Editor.get_note!(note.id) end
+      assert_raise Ecto.NoResultsError, fn -> Editor.get_note!(scope, note.id) end
     end
 
     # test "delete_note/2 with invalid scope raises" do
