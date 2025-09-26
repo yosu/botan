@@ -34,7 +34,7 @@ defmodule BotanWeb.NoteController do
   def update(conn, %{"id" => id, "note" => note_params}) do
     note = Editor.get_note!(id)
 
-    with {:ok, %Note{} = note} <- Editor.update_note(note, note_params) do
+    with {:ok, %Note{} = note} <- Editor.update_note(conn.assigns.current_scope, note, note_params) do
       render(conn, :show, note: note)
     end
   end

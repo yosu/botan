@@ -5,8 +5,70 @@ defmodule Botan.EditorTest do
   alias Botan.Editor
 
   describe "notes" do
+    alias Botan.Editor.Note
+
     import EditorFixtures
     import Botan.AccountFixtures, only: [user_scope_fixture: 0]
+
+    @invalid_attrs %{title: nil, body: nil}
+
+    test "create_note/2 with valid data creates a note" do
+      scope = user_scope_fixture()
+      book = book_fixture()
+
+      valid_attrs = %{title: "some title", body: "some body", book_id: book.id}
+
+      assert {:ok, %Note{} = note} = Editor.create_note(scope, valid_attrs)
+      assert note.title == "some title"
+      assert note.body == "some body"
+      assert note.user_id == scope.user.id
+    end
+
+    test "create_note/2 with invalid data returns error changeset" do
+      scope = user_scope_fixture()
+      assert {:error, %Ecto.Changeset{}} = Editor.create_note(scope, @invalid_attrs)
+    end
+
+    test "update_note/3 with valid data updates the post" do
+      scope = user_scope_fixture()
+      note = note_fixture(scope)
+      update_attrs = %{title: "some updated title", body: "some updated body"}
+
+      assert {:ok, %Note{} = note} = Editor.update_note(scope, note, update_attrs)
+      assert note.title == "some updated title"
+      assert note.body == "some updated body"
+    end
+
+    test "update_note/3 with invalid scope raises" do
+      scope = user_scope_fixture()
+      other_scope = user_scope_fixture()
+      note = note_fixture(scope)
+
+      assert_raise MatchError, fn ->
+        Editor.update_note(other_scope, note, %{})
+      end
+    end
+
+    test "update_note/3 with invalid data returns error changeset" do
+      scope = user_scope_fixture()
+      note = note_fixture(scope)
+      assert {:error, %Ecto.Changeset{}} = Editor.update_note(scope, note, @invalid_attrs)
+      assert note == Editor.get_note!(note.id)
+    end
+
+    test "delete_note/2 deletes the note" do
+      scope = user_scope_fixture()
+      note = note_fixture(scope)
+      assert {:ok, %Note{}} = Editor.delete_note(note)
+      assert_raise Ecto.NoResultsError, fn -> Editor.get_note!(note.id) end
+    end
+
+    # test "delete_note/2 with invalid scope raises" do
+    #   scope = user_scope_fixture()
+    #   other_scope = user_scope_fixture()
+    #   note = note_fixture(scope)
+    #   assert_raise MatchError, fn -> Editor.delete_note(other_scope, note) end
+    # end
 
     test "list_notes/0 returns all notes" do
       scope = user_scope_fixture()

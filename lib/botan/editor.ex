@@ -130,9 +130,11 @@ defmodule Botan.Editor do
     |> Repo.insert()
   end
 
-  def update_note(%Note{} = note, attrs \\ %{}) do
+  def update_note(scope, %Note{} = note, attrs \\ %{}) do
+    true = note.user_id == scope.user.id
+
     note
-    |> Note.changeset(attrs)
+    |> Note.changeset(attrs, scope)
     |> Repo.update()
   end
 
