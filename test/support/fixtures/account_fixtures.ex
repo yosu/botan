@@ -3,6 +3,7 @@ defmodule Botan.AccountFixtures do
   This module defines test helpers for creating
   entities via the `Botan.Account` context.
   """
+  alias Botan.Account.Scope
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
@@ -21,6 +22,15 @@ defmodule Botan.AccountFixtures do
       |> Botan.Account.register_user()
 
     user
+  end
+
+  def user_scope_fixture do
+    user = user_fixture()
+    user_scope_fixture(user)
+  end
+
+  def user_scope_fixture(user) do
+    Scope.for_user(user)
   end
 
   def extract_user_token(fun) do

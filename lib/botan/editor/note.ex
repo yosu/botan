@@ -22,10 +22,11 @@ defmodule Botan.Editor.Note do
   end
 
   @doc false
-  def create_changeset(note, attrs) do
+  def create_changeset(note, attrs, user_scope) do
     note
     |> cast(attrs, [:title, :body, :book_id], empty_values: [nil])
     |> validate_not_nil([:title, :body, :book_id])
+    |> put_change(:user_id, user_scope.user.id)
   end
 
   def import_changeset(attrs) do

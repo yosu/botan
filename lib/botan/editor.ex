@@ -117,16 +117,16 @@ defmodule Botan.Editor do
 
   ## Examples
 
-      iex> create_note(%{field: value})
-      {:ok, %Journal{}}
+      iex> create_note(%{field: value}, scope)
+      {:ok, %Note{}}
 
-      iex> create_note(%{field: bad_value})
+      iex> create_note(%{field: bad_value}, scope)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_note(attrs \\ %{}) do
+  def create_note(scope, attrs \\ %{}) do
     %Note{}
-    |> Note.create_changeset(attrs)
+    |> Note.create_changeset(attrs, scope)
     |> Repo.insert()
   end
 

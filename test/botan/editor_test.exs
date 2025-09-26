@@ -6,16 +6,19 @@ defmodule Botan.EditorTest do
 
   describe "notes" do
     import EditorFixtures
+    import Botan.AccountFixtures, only: [user_scope_fixture: 0]
 
     test "list_notes/0 returns all notes" do
-      note = note_fixture()
+      scope = user_scope_fixture()
+      note = note_fixture(scope)
       assert Editor.list_notes() == [note]
     end
 
     test "list_notes_by_book/1 returns the notes in the book" do
+      scope = user_scope_fixture()
       book = book_fixture()
-      note = note_fixture(%{book_id: book.id})
-      note_fixture()
+      note = note_fixture(scope, %{book_id: book.id})
+      note_fixture(scope)
 
       assert Editor.list_notes_by_book(book.id) == [note]
     end
@@ -25,6 +28,7 @@ defmodule Botan.EditorTest do
     alias Botan.Editor.Book
 
     import Botan.EditorFixtures
+    import Botan.AccountFixtures, only: [user_scope_fixture: 0]
 
     @invalid_attrs %{name: nil}
 

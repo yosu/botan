@@ -10,12 +10,12 @@ defmodule Botan.EditorFixtures do
     })
   end
 
-  def note_fixture(attrs \\ %{}) do
-    {:ok, note} =
+  def note_fixture(scope, attrs \\ %{}) do
+    attrs =
       attrs
       |> valid_note_attributes()
-      |> Editor.create_note()
 
+    {:ok, note} = Editor.create_note(scope, attrs)
     note
   end
 

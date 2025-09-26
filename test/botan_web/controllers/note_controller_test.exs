@@ -25,8 +25,8 @@ defmodule BotanWeb.NoteControllerTest do
   describe "index" do
     setup [:register_and_log_in_user]
 
-    test "lists all notes", %{conn: conn} do
-      note = note_fixture()
+    test "lists all notes", %{conn: conn, scope: scope} do
+      note = note_fixture(scope)
 
       conn = get(conn, ~p"/api/notes")
 
@@ -41,10 +41,10 @@ defmodule BotanWeb.NoteControllerTest do
              ]
     end
 
-    test "lists filter by book_id params", %{conn: conn} do
-      note_fixture()
+    test "lists filter by book_id params", %{conn: conn, scope: scope} do
+      note_fixture(scope)
       book = book_fixture()
-      note = note_fixture(%{book_id: book.id})
+      note = note_fixture(scope, %{book_id: book.id})
 
       conn = get(conn, ~p"/api/notes?book_id=#{book.id}")
 
@@ -115,8 +115,8 @@ defmodule BotanWeb.NoteControllerTest do
     end
   end
 
-  defp create_note(_) do
-    note = note_fixture()
+  defp create_note(%{scope: scope}) do
+    note = note_fixture(scope)
     %{note: note}
   end
 end

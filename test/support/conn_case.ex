@@ -46,7 +46,9 @@ defmodule BotanWeb.ConnCase do
   """
   def register_and_log_in_user(%{conn: conn}) do
     user = Botan.AccountFixtures.user_fixture()
-    %{conn: log_in_user(conn, user), user: user}
+    scope = Botan.Account.Scope.for_user(user)
+
+    %{conn: log_in_user(conn, user), user: user, scope: scope}
   end
 
   @doc """
