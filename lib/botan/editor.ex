@@ -5,6 +5,7 @@ defmodule Botan.Editor do
   alias Botan.Repo
   alias Botan.Editor.Book
   alias Botan.Editor.Note
+  alias Botan.Account.Scope
 
   def import_book(path) do
     path
@@ -100,12 +101,12 @@ defmodule Botan.Editor do
     end)
   end
 
-  def list_notes() do
-    Repo.all(Note)
+  def list_notes(%Scope{} = user_scope) do
+    Repo.all_by(Note, user_id: user_scope.user.id)
   end
 
-  def list_notes_by_book(book_id) do
-    Repo.all(Note.Query.by_book(book_id))
+  def list_notes_by_book(%Scope{} = user_scope, book_id) do
+    Repo.all_by(Note, book_id: book_id, user_id: user_scope.user.id)
   end
 
   def get_note!(scope, id) do

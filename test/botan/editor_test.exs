@@ -12,6 +12,21 @@ defmodule Botan.EditorTest do
 
     @invalid_attrs %{title: nil, body: nil}
 
+    test "list_notes/1 returns all notes" do
+      scope = user_scope_fixture()
+      note = note_fixture(scope)
+      assert Editor.list_notes(scope) == [note]
+    end
+
+    test "list_notes_by_book/1 returns the notes in the book" do
+      scope = user_scope_fixture()
+      book = book_fixture()
+      note = note_fixture(scope, %{book_id: book.id})
+      note_fixture(scope)
+
+      assert Editor.list_notes_by_book(scope, book.id) == [note]
+    end
+
     test "create_note/2 with valid data creates a note" do
       scope = user_scope_fixture()
       book = book_fixture()
@@ -68,21 +83,6 @@ defmodule Botan.EditorTest do
       other_scope = user_scope_fixture()
       note = note_fixture(scope)
       assert_raise MatchError, fn -> Editor.delete_note(other_scope, note) end
-    end
-
-    test "list_notes/0 returns all notes" do
-      scope = user_scope_fixture()
-      note = note_fixture(scope)
-      assert Editor.list_notes() == [note]
-    end
-
-    test "list_notes_by_book/1 returns the notes in the book" do
-      scope = user_scope_fixture()
-      book = book_fixture()
-      note = note_fixture(scope, %{book_id: book.id})
-      note_fixture(scope)
-
-      assert Editor.list_notes_by_book(book.id) == [note]
     end
   end
 
