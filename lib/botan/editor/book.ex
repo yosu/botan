@@ -6,6 +6,7 @@ defmodule Botan.Editor.Book do
   schema "books" do
     field :name, :string
 
+    belongs_to(:user, Botan.Account.User)
     belongs_to(:parent_book, Botan.Editor.Book)
     has_many(:books, Botan.Editor.Book)
 

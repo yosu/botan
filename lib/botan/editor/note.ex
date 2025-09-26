@@ -8,6 +8,7 @@ defmodule Botan.Editor.Note do
     field :title, :string
     field :body, :string
 
+    belongs_to :user, Botan.Account.User
     belongs_to :book, Botan.Editor.Book
 
     timestamps(type: :utc_datetime_usec)

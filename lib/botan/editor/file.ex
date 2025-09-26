@@ -9,6 +9,8 @@ defmodule Botan.Editor.File do
     field :content_type, :string
     field :content_length, :integer
 
+    belongs_to(:user, Botan.Account.User)
+
     timestamps(type: :utc_datetime_usec, updated_at: false)
   end
 
