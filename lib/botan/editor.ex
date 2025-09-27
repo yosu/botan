@@ -196,11 +196,11 @@ defmodule Botan.Editor do
     end)
   end
 
-  def get_file(id) do
-    Repo.get(Botan.Editor.File, id)
+  def get_file(scope, id) do
+    Repo.get_by(Botan.Editor.File, id: id, user_id: scope.user.id)
   end
 
-  def save_file(name, path) do
+  def save_file(scope, name, path) do
     {:ok, data} = File.read(path)
 
     {compact_data, compact_name, content_type} = Botan.Image.compact!(name, data)
@@ -211,7 +211,7 @@ defmodule Botan.Editor do
       content_type: content_type,
       content_length: byte_size(compact_data),
       digest: digest(compact_data)
-    })
+    }, scope)
     |> Repo.insert!()
   end
 

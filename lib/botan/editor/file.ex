@@ -15,16 +15,18 @@ defmodule Botan.Editor.File do
   end
 
   @doc false
-  def changeset(file, attrs) do
+  def changeset(file, attrs, scope) do
     file
     |> cast(attrs, [:id, :name, :digest, :content_type, :content_length, :data])
     |> validate_required([:id, :name, :digest, :content_type, :content_length, :data])
+    |> put_change(:user_id, scope.user.id)
   end
 
-  def new_changeset(attrs) do
+  def new_changeset(attrs, scope) do
     %__MODULE__{}
     |> cast(attrs, [:name, :digest, :content_type, :content_length, :data])
     |> validate_required([:name, :digest, :content_type, :content_length, :data])
+    |> put_change(:user_id, scope.user.id)
   end
 
   def import_changeset(attrs) do

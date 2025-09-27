@@ -4,7 +4,7 @@ defmodule BotanWeb.FileController do
   alias Botan.Editor
 
   def show(conn, %{"id" => id}) do
-    case Editor.get_file(id) do
+    case Editor.get_file(conn.assigns.current_scope, id) do
       nil ->
         send_resp(conn, 404, "")
 
@@ -24,7 +24,7 @@ defmodule BotanWeb.FileController do
   def create(conn, %{"uploadfile" => upload}) do
     IO.inspect(upload)
 
-    file = Editor.save_file(upload.filename, upload.path)
+    file = Editor.save_file(conn.assigns.current_scope, upload.filename, upload.path)
 
     conn
     |> put_resp_header("content-type", "application/json")
